@@ -1,1 +1,1 @@
-{\n  "version": 2,\n  "alias": [\n    "myapp.vercel.app"\n  ],\n  "builds": [\n    {\n      "src": "Jarvis-AI-main/**/*",\n      "use": "@vercel/static"\n    }\n  ],\n  "routes": [\n    {\n      "src": "/(.*)",\n      "dest": "Jarvis-AI-main/$1"\n    }\n  ]\n}
+{"version": 2,"alias": ["myapp.vercel.app"],"builds": [{"src": "package.json","use": "@vercel/static-build","config": {"distDir": "Jarvis-AI-main"}}],"routes": [{"src": "/(.*)", "dest": "/$1"}]}
