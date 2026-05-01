@@ -4,7 +4,7 @@
 # Run: python server.py
 # ============================================================
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import subprocess
 import psutil
@@ -17,8 +17,19 @@ import urllib.request
 import urllib.parse
 import re
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)  # Allow browser to call this API
+
+# ============================================================
+# CLOUD DEPLOYMENT HELPER (Serve UI from Python)
+# ============================================================
+@app.route('/')
+def serve_index():
+    return send_from_directory('.', 'index.html')
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('.', filename)
 
 # ============================================================
 # SYSTEM INFO
@@ -1974,8 +1985,9 @@ def lang_detect():
 if __name__ == '__main__':
     print("=" * 55)
     print("  JARVIS — System Control Backend v4.0")
-    print("  Running at: http://127.0.0.1:5501")
+    port = int(os.environ.get("PORT", 5501))
+    print(f"  Running at: http://127.0.0.1:{port}")
     print("  New: Tasks | Notes | PDF | SOS | Profile | Vosk")
     print("=" * 55)
-    app.run(host='127.0.0.1', port=5501, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=False)
 
